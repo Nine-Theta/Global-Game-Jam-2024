@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 3e61b4466d7e49c429f28a74bfff0a2e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 8665004810558573090}
   - component: {fileID: 6991381316125285383}
   - component: {fileID: 3471600166561909992}
+  - component: {fileID: 571887448831569515}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Weapon
@@ -147,7 +148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 39e1a5fc003cbf3438fdb38ac4484fec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,6 +193,29 @@ CapsuleCollider:
   m_Height: 6.25
   m_Direction: 0
   m_Center: {x: 0, y: 1.225, z: 0}
+--- !u!136 &571887448831569515
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181686256986173836}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2976809483308426104
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +279,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 39e1a5fc003cbf3438fdb38ac4484fec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -338,7 +362,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 3e61b4466d7e49c429f28a74bfff0a2e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -402,7 +426,8 @@ GameObject:
   - component: {fileID: 981227890633340825}
   - component: {fileID: 3169975767372929350}
   - component: {fileID: 5816810054973381180}
-  m_Layer: 0
+  - component: {fileID: 3768725535184811738}
+  m_Layer: 11
   m_Name: Mallet
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -437,15 +462,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78dd831d7da1e374aa84bfd8c5715d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsWielded: 1
+  IsWielded: 0
   Damage: 5
   BounceDamage: 5
-  AttackSpeed: 360
-  AttackAngleSize: 90
+  YeetDamageMult: 2
+  AttackSpeed: 300
+  AttackAngleSize: 100
   _impactPoint: {fileID: 8967602726906500405}
   _wielder: {fileID: 0}
   _weaponObject: {fileID: 1181686256986173836}
   _angleTracker: 0
+  _interactCollider: {fileID: 3768725535184811738}
 --- !u!54 &5816810054973381180
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -471,5 +498,26 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!135 &3768725535184811738
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8642380434857178013}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.2
+  m_Center: {x: 0, y: 0, z: 1.75}

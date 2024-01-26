@@ -60,11 +60,6 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public void OnAttack(InputAction.CallbackContext pContext)
-    {
-        _player.Attack();
-    }
-
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "Ground")

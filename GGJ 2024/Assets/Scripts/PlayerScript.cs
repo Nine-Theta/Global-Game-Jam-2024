@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     private Rigidbody _body;
 
-    private float _bounceMult = 5;
+    private float _bounceMult = .75f;
 
     public float MaxHealth = 100;
 
@@ -31,28 +31,52 @@ public class Player : MonoBehaviour
             WieldedWeapon.Attack();
     }
 
-    public void TakeImpact(Vector3 pPoint, Vector3 pDirection, float pDamage, float pBounceDamage)
+    public void Interact()
     {
-        Debug.Log("Took Impact!");
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 2f, (1 << LayerMask.NameToLayer("Interactable")), QueryTriggerInteraction.Collide);
+        foreach (Collider collider in colliders)
+        {
+            Debug.Log($"{collider.gameObject.name} is nearby");
+            if (collider.gameObject.GetComponent<I_Interactable>() != null)
+            {
+                collider.gameObject.GetComponent<I_Interactable>().Interact(this);
+                break;
+            }
+        }
+    }
 
+    public void Yeet()
+    {
+        if (WieldedWeapon != null)
+        {
+            WieldedWeapon.Yeet(transform.forward, new Vector3(_body.velocity.x, 0, _body.velocity.z));
+            WieldedWeapon = null;
+        }
+    }
+
+    public void EquipWeapon(Weapon pWeapon)
+    {
+        WieldedWeapon = pWeapon;
+    }
+
+    public void TakeImpact(Vector3 pDirection, float pDamage, float pBounceDamage)
+    {
         Health -= pDamage;
-        BouncePercent += pBounceDamage*0.1f;
+        BouncePercent += pBounceDamage * 1;
 
-        _body.AddForce(pDirection * BouncePercent*_bounceMult, ForceMode.VelocityChange);
+        _body.AddForce(BouncePercent * _bounceMult * pDirection, ForceMode.VelocityChange);
 
-        Debug.DrawRay(transform.position, pDirection * BouncePercent,Color.magenta, 10f);
+        Debug.DrawRay(transform.position, pDirection * BouncePercent, Color.magenta, 10f);
+
+        Debug.Log("Force Taken: " + BouncePercent * _bounceMult);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        /*
         if (collision.gameObject.tag == "Weapon")
         {
-            Weapon weapon = collision.gameObject.GetComponent<Weapon>();
-
-            if (weapon.IsWielded)
-            {
-
-            }
-        }
+            
+        }*/
     }
 }
