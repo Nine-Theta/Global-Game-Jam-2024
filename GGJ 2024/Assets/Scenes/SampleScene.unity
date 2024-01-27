@@ -425,10 +425,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec485489301ef146861830c35e2c3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movement: {x: 0, y: 0, z: 0}
+  _rotationAngle: 0
+  _rotationSpeed: 1
   _moveSpeed: 1
   _jumpStrength: 1
   _gravityMult: 1
   _isGrounded: 1
+  _jumped: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,12 +911,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78dd831d7da1e374aa84bfd8c5715d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &511727267 stripped
-SphereCollider:
-  m_CorrespondingSourceObject: {fileID: 3768725535184811738, guid: ebce0d4b745748a4d883c9ad7f809eb0,
-    type: 3}
-  m_PrefabInstance: {fileID: 687409018}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &687409018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -978,28 +976,33 @@ PrefabInstance:
       objectReference: {fileID: 892895457}
     - target: {fileID: 3169975767372929350, guid: ebce0d4b745748a4d883c9ad7f809eb0,
         type: 3}
-      propertyPath: _interactCollider
-      value: 
-      objectReference: {fileID: 511727267}
-    - target: {fileID: 3768725535184811738, guid: ebce0d4b745748a4d883c9ad7f809eb0,
-        type: 3}
-      propertyPath: m_Enabled
+      propertyPath: IsWielded
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3169975767372929350, guid: ebce0d4b745748a4d883c9ad7f809eb0,
+        type: 3}
+      propertyPath: AttackSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816810054973381180, guid: ebce0d4b745748a4d883c9ad7f809eb0,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5816810054973381180, guid: ebce0d4b745748a4d883c9ad7f809eb0,
         type: 3}
       propertyPath: m_Constraints
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5816810054973381180, guid: ebce0d4b745748a4d883c9ad7f809eb0,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8642380434857178013, guid: ebce0d4b745748a4d883c9ad7f809eb0,
         type: 3}
       propertyPath: m_Name
       value: Mallet
-      objectReference: {fileID: 0}
-    - target: {fileID: 8642380434857178013, guid: ebce0d4b745748a4d883c9ad7f809eb0,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1182,6 +1185,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4941d5f8-8624-4876-a56a-e4c0122a0d91
     m_ActionName: Player/Yeet[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 892895454}
+        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
+        m_MethodName: OnLook
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a826f683-aaef-4e14-9c4d-1cb622da2d52
+    m_ActionName: Player/Look[/DualShock4GamepadHID/rightStick]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1215,10 +1234,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec485489301ef146861830c35e2c3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movement: {x: 0, y: 0, z: 0}
+  _rotationAngle: 0
+  _rotationSpeed: 5
   _moveSpeed: 40
   _jumpStrength: 25
-  _gravityMult: 2
+  _gravityMult: 20
   _isGrounded: 0
+  _jumped: 0
 --- !u!136 &892895455
 CapsuleCollider:
   m_ObjectHideFlags: 0

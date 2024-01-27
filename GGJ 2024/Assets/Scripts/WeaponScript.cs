@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(SphereCollider))]
@@ -11,7 +12,9 @@ public class Weapon : MonoBehaviour, I_Interactable
 
     public float AttackSpeed = 10f;
 
-    public float AttackAngleSize = 90f;
+    public float HoldingAngle = 70f;
+
+    private bool _readyToAttack = true;
 
     [SerializeField]
     private Transform _impactPoint;
@@ -20,11 +23,12 @@ public class Weapon : MonoBehaviour, I_Interactable
     private Player _wielder = null;
 
     [SerializeField]
-    private GameObject _weaponObject;
+    private GameObject _weaponColliderObject;
 
-    private float _startAngle;
 
+    [SerializeField, ReadOnly]
     private bool _isAttacking = false;
+    [SerializeField, ReadOnly]
     private bool _isYeeted = false;
 
 
@@ -47,22 +51,32 @@ public class Weapon : MonoBehaviour, I_Interactable
         if (IsWielded)
         {
             this.transform.position = _wielder.transform.position;
-        }
 
-        if (_isAttacking)
-        {
-            if (_angleTracker <= 0)
+
+            if (!_isAttacking)
             {
-                _weaponObject.SetActive(false);
-                _isAttacking = false;
-                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, _startAngle, transform.rotation.eulerAngles.z);
-                return;
+                if (Quaternion.Angle(this.transform.rotation, _wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up)) > 3)
+                {
+                    transform.rotation = Quaternion.Lerp(this.transform.rotation, _wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up), Time.deltaTime * 5);
+                }
+                else
+                {
+                    transform.rotation = _wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up);
+                    _readyToAttack = true;
+                }
+
             }
-            transform.Rotate(Vector3.up, -AttackSpeed * Time.deltaTime);
-            _angleTracker -= AttackSpeed * Time.deltaTime;
+            else if (_body.angularVelocity.sqrMagnitude <= 1f && _body.angularVelocity.sqrMagnitude >0)
+            {
+                Debug.Log("angle vel low: " + _body.angularVelocity.sqrMagnitude);
+                _weaponColliderObject.SetActive(false);
+                _isAttacking = false;
+                _body.angularVelocity = Vector3.zero;
+            }
         }
 
         Debug.DrawRay(_impactPoint.position, _impactPoint.forward, Color.red, 0.5f);
+        Debug.Log("anglevel: " + _body.angularVelocity.sqrMagnitude);
     }
 
     public void Interact(Player pPlayer)
@@ -72,13 +86,16 @@ public class Weapon : MonoBehaviour, I_Interactable
 
     public void Attack()
     {
-        if (_isAttacking)
+        if (_isAttacking || !_readyToAttack)
             return;
 
-        _weaponObject.SetActive(true);
-        _startAngle = transform.rotation.eulerAngles.y;
+        Debug.Log("start attack");
+
+        _weaponColliderObject.SetActive(true);
         _isAttacking = true;
-        _angleTracker = AttackAngleSize;
+        _readyToAttack = false;
+
+        _body.AddTorque(new Vector3(0, -AttackSpeed, 0), ForceMode.VelocityChange);        
     }
 
     public void Equip(Player pWielder)
@@ -89,11 +106,20 @@ public class Weapon : MonoBehaviour, I_Interactable
         pWielder.EquipWeapon(this);
 
         _isYeeted = false;
+        _readyToAttack = true;
+        _isAttacking = false;
 
-        _body.isKinematic = true;
         _body.useGravity = false;
 
+        _body.velocity = Vector3.zero;
+        _body.angularVelocity = Vector3.zero;
+
+        _body.isKinematic = true;
+
+        transform.rotation = Quaternion.Euler(0, 70, 0);
+
         _interactCollider.enabled = false;
+        _weaponColliderObject.SetActive(false);
     }
 
     public void Yeet(Vector3 pDirection, Vector3 pRelativeVelocity)
@@ -104,7 +130,7 @@ public class Weapon : MonoBehaviour, I_Interactable
         _isYeeted = true;
         _isAttacking = false;
 
-        _weaponObject.SetActive(true);
+        _weaponColliderObject.SetActive(true);
 
         transform.LookAt(pDirection, Vector3.up);
 
@@ -123,20 +149,25 @@ public class Weapon : MonoBehaviour, I_Interactable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (IsWielded && collision.gameObject.tag == "Player")
+        if (IsWielded && collision.gameObject.CompareTag("Player"))
         {
+            Player colPlayer = collision.gameObject.GetComponent<Player>();
+
+            if (colPlayer == _wielder)
+                return;
+
             Debug.Log("Collided with player!");
 
             if (_isYeeted)
             {
-                collision.gameObject.GetComponent<Player>().TakeImpact(transform.forward*YeetDamageMult, Damage*YeetDamageMult, BounceDamage*YeetDamageMult);
+                colPlayer.TakeImpact(transform.forward * YeetDamageMult, Damage * YeetDamageMult, BounceDamage * YeetDamageMult);
             }
             else
             {
-                collision.gameObject.GetComponent<Player>().TakeImpact(_impactPoint.forward, Damage, BounceDamage);
+                colPlayer.TakeImpact(_impactPoint.forward, Damage, BounceDamage);
             }
         }
-        else if(collision.gameObject.tag == "Ground")
+        else if (collision.gameObject.CompareTag("Ground"))
         {
             _isYeeted = false;
         }
