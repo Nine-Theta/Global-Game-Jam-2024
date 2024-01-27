@@ -491,24 +491,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 8642380434857178013}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78dd831d7da1e374aa84bfd8c5715d94, type: 3}
+  m_Script: {fileID: 11500000, guid: f170d45bb1983e44c9a9dcbf9ca28743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsWielded: 0
+  Wielder: {fileID: 0}
   Damage: 5
   BounceDamage: 5
   YeetDamageMult: 2
-  AttackSpeed: 250
-  AttackAngleSize: 100
+  AttackSpeed: 20
   HoldingAngle: 70
+  ReadyToAttack: 1
+  IsAttacking: 0
+  IsYeeted: 0
+  WeaponBody: {fileID: 0}
+  InteractCollider: {fileID: 0}
   _impactPoint: {fileID: 8967602726906500405}
-  _wielder: {fileID: 0}
   _weaponColliderObject: {fileID: 5159150870354813443}
-  _startAngle: 0
-  _isAttacking: 0
-  _isYeeted: 0
-  _angleTracker: 0
-  _interactCollider: {fileID: 3768725535184811738}
 --- !u!54 &5816810054973381180
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -519,7 +518,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 7
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -531,8 +530,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
@@ -553,7 +552,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Radius: 1.2
   m_Center: {x: 0, y: 0, z: 1.75}

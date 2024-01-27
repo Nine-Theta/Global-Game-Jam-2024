@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//[RequireComponent(typeof(CharacterController))]
+[SelectionBase]
 public class Player : MonoBehaviour
 {
     private Rigidbody _body;
@@ -39,6 +39,9 @@ public class Player : MonoBehaviour
             Debug.Log($"{collider.gameObject.name} is nearby");
             if (collider.gameObject.GetComponent<I_Interactable>() != null)
             {
+                if (collider.gameObject.GetComponent<Weapon>() != null && WieldedWeapon != null)
+                    Yeet();
+
                 collider.gameObject.GetComponent<I_Interactable>().Interact(this);
                 break;
             }
@@ -49,7 +52,7 @@ public class Player : MonoBehaviour
     {
         if (WieldedWeapon != null)
         {
-            WieldedWeapon.Yeet(transform.forward, new Vector3(_body.velocity.x, 0, _body.velocity.z));
+            WieldedWeapon.Yeet(transform.forward, new Vector3(_body.velocity.x, 2, _body.velocity.z));
             WieldedWeapon = null;
         }
     }

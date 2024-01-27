@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 86894102}
   - component: {fileID: 86894101}
   - component: {fileID: 86894100}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: 365035753}
   - component: {fileID: 365035752}
   - component: {fileID: 365035751}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -806,7 +806,7 @@ GameObject:
   - component: {fileID: 483663195}
   - component: {fileID: 483663194}
   - component: {fileID: 483663193}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -908,7 +908,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78dd831d7da1e374aa84bfd8c5715d94, type: 3}
+  m_Script: {fileID: 11500000, guid: f170d45bb1983e44c9a9dcbf9ca28743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &687409018
@@ -971,6 +971,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3169975767372929350, guid: ebce0d4b745748a4d883c9ad7f809eb0,
         type: 3}
+      propertyPath: Wielder
+      value: 
+      objectReference: {fileID: 892895457}
+    - target: {fileID: 3169975767372929350, guid: ebce0d4b745748a4d883c9ad7f809eb0,
+        type: 3}
       propertyPath: _wielder
       value: 
       objectReference: {fileID: 892895457}
@@ -978,26 +983,6 @@ PrefabInstance:
         type: 3}
       propertyPath: IsWielded
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3169975767372929350, guid: ebce0d4b745748a4d883c9ad7f809eb0,
-        type: 3}
-      propertyPath: AttackSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5816810054973381180, guid: ebce0d4b745748a4d883c9ad7f809eb0,
-        type: 3}
-      propertyPath: m_AngularDrag
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5816810054973381180, guid: ebce0d4b745748a4d883c9ad7f809eb0,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5816810054973381180, guid: ebce0d4b745748a4d883c9ad7f809eb0,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8642380434857178013, guid: ebce0d4b745748a4d883c9ad7f809eb0,
         type: 3}
@@ -1320,7 +1305,7 @@ GameObject:
   - component: {fileID: 960294055}
   - component: {fileID: 960294054}
   - component: {fileID: 960294053}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1471,6 +1456,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5816810054973381180, guid: ebce0d4b745748a4d883c9ad7f809eb0,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8642380434857178013, guid: ebce0d4b745748a4d883c9ad7f809eb0,
         type: 3}
       propertyPath: m_Name
@@ -1576,7 +1566,7 @@ GameObject:
   - component: {fileID: 1794869331}
   - component: {fileID: 1794869330}
   - component: {fileID: 1794869329}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
