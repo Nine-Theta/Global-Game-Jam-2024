@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     {
         if (WieldedWeapon != null)
         {
-            WieldedWeapon.Yeet(transform.forward, new Vector3(_body.velocity.x, 2, _body.velocity.z));
+            WieldedWeapon.Yeet(transform.forward, new Vector3(_body.velocity.x, 1, _body.velocity.z));
             WieldedWeapon = null;
         }
     }

@@ -76,6 +76,11 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    public void OnDash()
+    {
+        
+    }
+
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Ground"))

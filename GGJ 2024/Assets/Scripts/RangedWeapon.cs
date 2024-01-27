@@ -1,11 +1,7 @@
 using UnityEngine;
 
-public class MeleeWeapon : Weapon
+public class RangedWeapon : Weapon
 {
-
-    [SerializeField]
-    private Transform _impactPoint;
-
     [SerializeField]
     private GameObject _weaponColliderObject;
 
@@ -23,7 +19,7 @@ public class MeleeWeapon : Weapon
 
             if (!IsAttacking)
             {
-                if (Quaternion.Angle(this.transform.rotation, Wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up)) > 5)
+                if (Quaternion.Angle(this.transform.rotation, Wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up)) > 3)
                 {
                     transform.rotation = Quaternion.Lerp(this.transform.rotation, Wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up), Time.deltaTime * 5);
                 }
@@ -42,7 +38,7 @@ public class MeleeWeapon : Weapon
             }
         }
 
-        Debug.DrawRay(_impactPoint.position, _impactPoint.forward, Color.red, 0.5f);
+        Debug.DrawRay(transform.position, transform.forward, Color.red, 0.5f);
     }
 
     public override void Attack()
@@ -50,11 +46,8 @@ public class MeleeWeapon : Weapon
         if (IsAttacking || !ReadyToAttack)
             return;
 
-        _weaponColliderObject.SetActive(true);
         IsAttacking = true;
         ReadyToAttack = false;
-
-        WeaponBody.AddTorque(new Vector3(0, -AttackSpeed, 0), ForceMode.VelocityChange);
     }
 
     public override void Equip(Player pWielder)
@@ -75,43 +68,18 @@ public class MeleeWeapon : Weapon
 
     private void OnCollisionEnter(Collision collision)
     {
-        switch (collision.gameObject.layer)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            case 10: //Terrain
-                IsYeeted = false;
-                break;
-            case 12: //Player
-                HandlePlayerCollision(collision.gameObject.GetComponent<Player>());
-                break;
-            case 13: //Wackable
-                HandleWackableCollision(collision.gameObject.GetComponent<Rigidbody>());
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void HandlePlayerCollision(Player colPlayer)
-    {
-            Debug.Log("Collided with player!");
-
-            if (IsWielded && IsAttacking)
+            if (IsYeeted)
             {
-                if (colPlayer == Wielder)
-                    return;
-
-                colPlayer.TakeImpact(_impactPoint.forward, Damage, BounceDamage);
-                _weaponColliderObject.SetActive(false);
-            }
-            else if (IsYeeted)
-            {
+                Player colPlayer = collision.gameObject.GetComponent<Player>();
                 colPlayer.TakeImpact(transform.forward * YeetDamageMult, Damage * YeetDamageMult, BounceDamage * YeetDamageMult);
                 IsYeeted = false;
             }
-    }
-
-    private void HandleWackableCollision(Rigidbody pWackBody)
-    {
-        pWackBody.AddForce(BounceDamage * 5 * _impactPoint.forward, ForceMode.VelocityChange);
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        {
+            IsYeeted = false;
+        }
     }
 }
