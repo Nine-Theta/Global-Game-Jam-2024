@@ -21,6 +21,10 @@ public class RangedWeapon : Weapon
 
     private float _fireWatch = 0;
 
+    public float Ammo = 30;
+
+    public bool _isEquipable =true;
+
     private void Start()
     {
         _animator.speed = AttackSpeed;
@@ -42,12 +46,26 @@ public class RangedWeapon : Weapon
                 _fireWatch = (1 / AttackSpeed);
 
                 SpawnBullet();
+                Ammo -= 1;
+
+                if (Ammo <= 0)
+                {
+                    _isEquipable = false;
+                    Yeet(Wielder.transform.forward, new Vector3(0,2,0));
+                }
             }
             else
             {
                 _fireWatch -= Time.deltaTime;
             }
         }
+    }
+
+    private IEnumerator DespawnTimer(float pDespawnTime)
+    {
+
+        yield return new WaitForSeconds(pDespawnTime);
+        Destroy(gameObject);
     }
 
     private void SpawnBullet()
@@ -76,6 +94,9 @@ public class RangedWeapon : Weapon
 
     public override void Equip(Player pWielder)
     {
+        if (!_isEquipable)
+            return;
+
         _weaponColliderObject.SetActive(false);
 
         base.Equip(pWielder);

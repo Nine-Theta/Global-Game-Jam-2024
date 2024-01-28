@@ -34,6 +34,6 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<Player>().TakeImpact(transform.forward, Damage, BounceDamage);
         }
 
-        StartCoroutine(DespawnTimer(2.5f));
+        StartCoroutine(DespawnTimer(1.5f));
     }
 }

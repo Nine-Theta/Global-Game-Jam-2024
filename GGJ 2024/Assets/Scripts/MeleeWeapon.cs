@@ -87,6 +87,7 @@ public class MeleeWeapon : Weapon
                 HandleWackableCollision(collision.gameObject.GetComponent<Rigidbody>());
                 break;
             default:
+                IsYeeted = false;
                 break;
         }
     }
@@ -113,5 +114,6 @@ public class MeleeWeapon : Weapon
     private void HandleWackableCollision(Rigidbody pWackBody)
     {
         pWackBody.AddForce(BounceDamage * 5 * _impactPoint.forward, ForceMode.VelocityChange);
+        IsYeeted = false;
     }
 }

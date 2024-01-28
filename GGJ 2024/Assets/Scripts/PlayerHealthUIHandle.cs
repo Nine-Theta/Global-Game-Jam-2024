@@ -18,15 +18,21 @@ public class PlayerHealthUIHandle : MonoBehaviour
     public Slider HealthSliderThree;
     public TextMeshProUGUI BounceTextThree;
 
-    //Player 2
+    //Player 4
     public Slider HealthSliderFour;
     public TextMeshProUGUI BounceTextFour;
+
+    public TextMeshProUGUI EventDisplay;
 
 
     private Player _player1 = null;
     private Player _player2 = null;
     private Player _player3 = null;
     private Player _player4 = null;
+
+
+    public float Cooldown = 7;
+    private float _counter = 30;
 
     private void Start()
     {
@@ -55,6 +61,27 @@ public class PlayerHealthUIHandle : MonoBehaviour
             HealthSliderTwo.value = _player2.Health;
             BounceTextTwo.text = string.Format("{0,12:P2}", _player2.BouncePercent.ToString());
         }
+
+        if (_player3 != null)
+        {
+            HealthSliderThree.value = _player3.Health;
+            BounceTextThree.text = string.Format("{0,2:P2}", _player3.BouncePercent.ToString());
+        }
+
+        if (_player4 != null)
+        {
+            HealthSliderFour.value = _player4.Health;
+            BounceTextFour.text = string.Format("{0,12:P2}", _player4.BouncePercent.ToString());
+        }
+
+        if (_counter <= 0)
+        {
+            EventDisplay.text = "";
+
+            _counter = Cooldown;
+        }
+
+        _counter -= Time.deltaTime;
     }
 
 
@@ -70,6 +97,8 @@ public class PlayerHealthUIHandle : MonoBehaviour
             HealthSlider.maxValue = _player1.MaxHealth;
             HealthSlider.value = _player1.Health;
             BounceText.text = string.Format("{0:P2}", _player1.BouncePercent.ToString());
+
+            EventDisplay.text = "Player 1 Joined";
         }
         else if (_player2 == null)
         { 
@@ -81,6 +110,7 @@ public class PlayerHealthUIHandle : MonoBehaviour
             HealthSliderTwo.maxValue = _player2.MaxHealth;
             HealthSliderTwo.value = _player2.Health;
             BounceTextTwo.text = string.Format("{0:P2}", _player2.BouncePercent.ToString());
+            EventDisplay.text = "Player 2 Joined";
         }
         else if (_player3 == null)
         {
@@ -92,6 +122,7 @@ public class PlayerHealthUIHandle : MonoBehaviour
             HealthSliderThree.maxValue = _player3.MaxHealth;
             HealthSliderThree.value = _player3.Health;
             BounceTextThree.text = string.Format("{0:P2}", _player3.BouncePercent.ToString());
+            EventDisplay.text = "Player 3 Joined";
         }
         else
         {
@@ -103,6 +134,8 @@ public class PlayerHealthUIHandle : MonoBehaviour
             HealthSliderFour.maxValue = _player4.MaxHealth;
             HealthSliderFour.value = _player4.Health;
             BounceTextFour.text = string.Format("{0:P2}", _player4.BouncePercent.ToString());
+
+            EventDisplay.text = "Player 4 Joined";
         }
     }
 
@@ -113,6 +146,9 @@ public class PlayerHealthUIHandle : MonoBehaviour
             _player1 = null;
             HealthSlider.gameObject.SetActive(false);
             BounceText.gameObject.SetActive(false);
+
+
+            EventDisplay.text = "Player 1 Was Removed";
         }
 
         if (pPlayer.GetComponent<Player>() == _player2)
@@ -120,6 +156,8 @@ public class PlayerHealthUIHandle : MonoBehaviour
             _player2 = null;
             HealthSliderTwo.gameObject.SetActive(false);
             BounceTextTwo.gameObject.SetActive(false);
+
+            EventDisplay.text = "Player 2 Was Removed";
         }
 
         if (pPlayer.GetComponent<Player>() == _player3)
@@ -127,6 +165,8 @@ public class PlayerHealthUIHandle : MonoBehaviour
             _player3 = null;
             HealthSliderThree.gameObject.SetActive(false);
             BounceTextThree.gameObject.SetActive(false);
+
+            EventDisplay.text = "Player 3 Was Removed";
         }
 
         if (pPlayer.GetComponent<Player>() == _player4)
@@ -134,6 +174,8 @@ public class PlayerHealthUIHandle : MonoBehaviour
             _player4 = null;
             HealthSliderFour.gameObject.SetActive(false);
             BounceTextFour.gameObject.SetActive(false);
+
+            EventDisplay.text = "Player 4 Was Removed";
         }
     }
 }

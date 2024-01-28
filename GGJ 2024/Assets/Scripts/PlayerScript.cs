@@ -20,9 +20,9 @@ public class Player : MonoBehaviour
         _body = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    public void OnQuitGame()
     {
-
+        Application.Quit();
     }
 
     public void Attack()
