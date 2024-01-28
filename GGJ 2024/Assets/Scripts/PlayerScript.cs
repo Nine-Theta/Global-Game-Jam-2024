@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
+        Debug.Log("called");
+
         if (WieldedWeapon != null)
             WieldedWeapon.Attack();
     }

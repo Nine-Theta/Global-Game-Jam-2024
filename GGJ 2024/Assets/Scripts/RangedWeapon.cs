@@ -1,12 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RangedWeapon : Weapon
 {
     [SerializeField]
+    private float _bulletSpeed = 10f;
+
+    [SerializeField]
     private GameObject _weaponColliderObject;
+
+    [SerializeField]
+    private Transform _bulletSpawnPoint;
+
+    [SerializeField]
+    private GameObject _bullet;
+
+    [SerializeField]
+    private Animator _animator;
+
+    private float _fireWatch = 0;
 
     private void Start()
     {
+        _animator.speed = AttackSpeed;
+
+        Debug.Log("called");
+
         base.Start();
     }
 
@@ -15,30 +35,26 @@ public class RangedWeapon : Weapon
         if (IsWielded)
         {
             this.transform.position = Wielder.transform.position;
+            transform.rotation = Quaternion.Lerp(this.transform.rotation, Wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up), Time.deltaTime * 5);
 
-
-            if (!IsAttacking)
+            if (IsAttacking && _fireWatch <= 0)
             {
-                if (Quaternion.Angle(this.transform.rotation, Wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up)) > 3)
-                {
-                    transform.rotation = Quaternion.Lerp(this.transform.rotation, Wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up), Time.deltaTime * 5);
-                }
-                else
-                {
-                    transform.rotation = Wielder.transform.rotation * Quaternion.AngleAxis(HoldingAngle, Vector3.up);
-                    ReadyToAttack = true;
-                }
+                _fireWatch = (1 / AttackSpeed);
 
+                SpawnBullet();
             }
-            else if (WeaponBody.angularVelocity.sqrMagnitude <= 5f && WeaponBody.angularVelocity.sqrMagnitude > 0)
+            else
             {
-                _weaponColliderObject.SetActive(false);
-                IsAttacking = false;
-                WeaponBody.angularVelocity = Vector3.zero;
+                _fireWatch -= Time.deltaTime;
             }
         }
+    }
 
-        Debug.DrawRay(transform.position, transform.forward, Color.red, 0.5f);
+    private void SpawnBullet()
+    {
+        GameObject bullet = Instantiate(_bullet, _bulletSpawnPoint.position, this.transform.rotation);
+        bullet.GetComponent<Bullet>().SetDamage(Damage, BounceDamage);
+        bullet.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, _bulletSpeed), ForceMode.VelocityChange);
     }
 
     public override void Attack()
@@ -46,8 +62,16 @@ public class RangedWeapon : Weapon
         if (IsAttacking || !ReadyToAttack)
             return;
 
+        _animator.SetBool("GunIsFiring", true);
+
         IsAttacking = true;
         ReadyToAttack = false;
+    }
+
+    public override void StopAttack()
+    {
+        _animator.SetBool("GunIsFiring", false);
+        base.StopAttack();
     }
 
     public override void Equip(Player pWielder)

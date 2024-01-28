@@ -42,7 +42,7 @@ public class MeleeWeapon : Weapon
             }
         }
 
-        Debug.DrawRay(_impactPoint.position, _impactPoint.forward, Color.red, 0.5f);
+        Debug.DrawRay(_impactPoint.position, _impactPoint.forward*0.1f, Color.red, 0.5f);
     }
 
     public override void Attack()

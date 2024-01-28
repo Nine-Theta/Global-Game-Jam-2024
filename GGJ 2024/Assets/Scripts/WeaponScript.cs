@@ -39,6 +39,11 @@ public abstract class Weapon : MonoBehaviour, I_Interactable
 
     public abstract void Attack();
 
+    public virtual void StopAttack()
+    {
+        IsAttacking = false;
+    }
+
     public virtual void Equip(Player pWielder)
     {
         if (IsWielded)
